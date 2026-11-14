@@ -639,11 +639,19 @@ body {
 
 .featured-footer {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
   padding-top: 14px;
   border-top: 1px solid var(--border-color);
   font-size: 0.78rem;
+}
+
+.featured-footer .mono-badge {
+  display: inline-block;
+  width: fit-content;
+  line-height: 1.4;
+  padding: 4px 10px;
 }
 
 /* Research Pillars Grid */
@@ -1070,31 +1078,34 @@ body {
 }
 
 .author-self {
-  background: var(--author-highlight-bg);
-  color: var(--author-highlight-text);
-  border: 1px solid var(--author-highlight-border);
-  padding: 0 6px;
-  border-radius: 4px;
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .pub-actions {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 8px;
+  gap: 10px;
+}
+
+.pub-actions .mono-badge {
+  display: inline-block;
+  width: fit-content;
+  white-space: nowrap;
+  padding: 4px 10px;
 }
 
 .pub-action-row {
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
 
 .action-chip {
   font-family: var(--font-mono);
   font-size: 0.73rem;
   font-weight: 500;
-  padding: 5px 10px;
+  padding: 6px 12px;
   border-radius: 5px;
   border: 1px solid var(--border-color);
   background: var(--bg-primary);
@@ -1103,7 +1114,8 @@ body {
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
+  white-space: nowrap;
   transition: all 0.15s ease;
 }
 
@@ -1127,11 +1139,28 @@ body {
   font-size: 0.8rem;
 }
 
-/* Network & Collaborators Section */
-.network-layout {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 24px;
+/* Scientific Phases (Top) & Co-Author Network */
+.phases-top-wrap {
+  margin-top: 40px;
+}
+
+.trajectory-card-top {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 28px 30px;
+  box-shadow: var(--shadow-sm);
+}
+
+.phases-heading {
+  font-size: 1.75rem;
+  margin-bottom: 20px;
+}
+
+.phase-timeline-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px 32px !important;
 }
 
 .collaborators-card,
@@ -1387,8 +1416,9 @@ body {
     display: none;
   }
   .featured-grid,
-  .pillars-grid {
-    grid-template-columns: 1fr;
+  .pillars-grid,
+  .phase-timeline-grid {
+    grid-template-columns: 1fr !important;
   }
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);

@@ -197,105 +197,105 @@ function resolvePublisherLink(title, venue, publisher, year) {
   const p = (publisher || '').toLowerCase();
 
   if (t.includes('determination of quantitative sodium mass transfer coefficient')) {
-    return { url: 'https://onlinelibrary.wiley.com/doi/10.1111/jfpp.12676', label: 'Wiley Full Paper' };
+    return { url: 'https://onlinelibrary.wiley.com/doi/10.1111/jfpp.12676', label: 'Read full paper at onlinelibrary.wiley.com' };
   }
   if (t.includes('genetic optimization of a bacteriophage-delivered alkaline phosphatase') || t.includes('genetic optimzation of a phage-delivered alkaline phosphatase')) {
-    return { url: 'https://pubs.rsc.org/en/content/articlelanding/2016/an/c6an00479b', label: 'RSC Full Paper' };
+    return { url: 'https://pubs.rsc.org/en/content/articlelanding/2016/an/c6an00479b', label: 'Read full paper at pubs.rsc.org' };
   }
   if (t.includes('a syringe-based biosensor to rapidly detect low levels of escherichia coli')) {
-    return { url: 'https://www.mdpi.com/1424-8220/20/7/1953', label: 'MDPI Full Paper' };
+    return { url: 'https://www.mdpi.com/1424-8220/20/7/1953', label: 'Read full paper at mdpi.com' };
   }
   if (t.includes('fusion of carbohydrate binding module to mutant alkaline phosphatase')) {
-    return { url: 'https://doi.org/10.1016/j.bcab.2018.01.003', label: 'ScienceDirect' };
+    return { url: 'https://doi.org/10.1016/j.bcab.2018.01.003', label: 'Read full paper at sciencedirect.com' };
   }
   if (t.includes('a phage-based assay for the rapid, quantitative, and single cfu visualization')) {
-    return { url: 'https://www.nature.com/articles/s41598-018-33097-4', label: 'Nature Full Paper' };
+    return { url: 'https://www.nature.com/articles/s41598-018-33097-4', label: 'Read full paper at nature.com' };
   }
   if (t.includes('colorimetric detection of escherichia coli using engineered bacteriophage')) {
-    return { url: 'https://link.springer.com/article/10.1007/s00216-019-02095-4', label: 'Springer Full Paper' };
+    return { url: 'https://link.springer.com/article/10.1007/s00216-019-02095-4', label: 'Read full paper at link.springer.com' };
   }
   if (t.includes('utilizing in vitro dna assembly to engineer a synthetic t7 nanoluc')) {
-    return { url: 'https://doi.org/10.1093/intbio/zyz005', label: 'Oxford Academic' };
+    return { url: 'https://doi.org/10.1093/intbio/zyz005', label: 'Read full paper at academic.oup.com' };
   }
   if (t.includes('phage based electrochemical detection of escherichia coli in drinking water')) {
-    return { url: 'https://pubs.rsc.org/en/content/articlelanding/2019/an/c8an01712a', label: 'RSC Full Paper' };
+    return { url: 'https://pubs.rsc.org/en/content/articlelanding/2019/an/c8an01712a', label: 'Read full paper at pubs.rsc.org' };
   }
   if (t.includes('reporter bacteriophage t7nlc utilizes a novel nanoluc')) {
-    return { url: 'https://pubs.rsc.org/en/content/articlelanding/2018/an/c8an00781k', label: 'RSC Full Paper' };
+    return { url: 'https://pubs.rsc.org/en/content/articlelanding/2018/an/c8an00781k', label: 'Read full paper at pubs.rsc.org' };
   }
   if (t.includes('genome sequences of 38 bacteriophages infecting escherichia coli')) {
-    return { url: 'https://journals.asm.org/doi/10.1128/MRA.00909-20', label: 'ASM Full Paper' };
+    return { url: 'https://journals.asm.org/doi/10.1128/MRA.00909-20', label: 'Read full paper at journals.asm.org' };
   }
   if (t.includes('recombinant lactase with a cellulose binding domain permits facile immobilization')) {
-    return { url: 'https://doi.org/10.1016/j.fbp.2021.01.010', label: 'ScienceDirect' };
+    return { url: 'https://doi.org/10.1016/j.fbp.2021.01.010', label: 'Read full paper at sciencedirect.com' };
   }
   if (t.includes('a microfluidic device and instrument prototypes for the detection of escherichia coli')) {
-    return { url: 'https://pubs.rsc.org/en/content/articlelanding/2022/lc/d1lc00888a', label: 'RSC Full Paper' };
+    return { url: 'https://pubs.rsc.org/en/content/articlelanding/2022/lc/d1lc00888a', label: 'Read full paper at pubs.rsc.org' };
   }
   if (t.includes('rapid, sensitive, and low-cost detection of escherichia coli bacteria in contaminated water')) {
-    return { url: 'https://www.nature.com/articles/s41598-022-11468-2', label: 'Nature Full Paper' };
+    return { url: 'https://www.nature.com/articles/s41598-022-11468-2', label: 'Read full paper at nature.com' };
   }
   if (t.includes('a replicating rna vaccine confers protection in a rhesus macaque model of crimean-congo')) {
-    return { url: 'https://www.nature.com/articles/s41541-024-00887-z', label: 'Nature Full Paper' };
+    return { url: 'https://www.nature.com/articles/s41541-024-00887-z', label: 'Read full paper at nature.com' };
   }
   if (t.includes('replicating rna platform enables rapid response to the sars-cov-2 omicron variant')) {
-    return { url: 'https://doi.org/10.1016/j.ebiom.2022.104196', label: 'The Lancet / Elsevier' };
+    return { url: 'https://doi.org/10.1016/j.ebiom.2022.104196', label: 'Read full paper at thelancet.com' };
   }
   if (t.includes('single dose, dual antigen rna vaccines protect against lethal crimean-congo')) {
-    return { url: 'https://doi.org/10.1016/j.ebiom.2024.105017', label: 'The Lancet / Elsevier' };
+    return { url: 'https://doi.org/10.1016/j.ebiom.2024.105017', label: 'Read full paper at thelancet.com' };
   }
   if (t.includes('a localizing nanocarrier formulation enables multi-target immune responses')) {
-    return { url: 'https://doi.org/10.1016/j.ymthe.2023.06.017', label: 'Cell Press Full Paper' };
+    return { url: 'https://doi.org/10.1016/j.ymthe.2023.06.017', label: 'Read full paper at cell.com' };
   }
   if (t.includes('antibodies targeting the cchfv nucleocapsid protein require trim21')) {
-    return { url: 'https://doi.org/10.21203/rs.3.rs-3915320/v1', label: 'Research Square' };
+    return { url: 'https://doi.org/10.21203/rs.3.rs-3915320/v1', label: 'Read full paper at researchsquare.com' };
   }
   if (t.includes('a gh/gl-encoding replicon vaccine elicits neutralizing antibodies')) {
-    return { url: 'https://www.nature.com/articles/s41541-024-00888-4', label: 'Nature Full Paper' };
+    return { url: 'https://www.nature.com/articles/s41541-024-00888-4', label: 'Read full paper at nature.com' };
   }
   if (t.includes('an anti-shiga toxin vhh nanobody multimer protects mice')) {
-    return { url: 'https://journals.asm.org/doi/10.1128/iai.00239-24', label: 'ASM Full Paper' };
+    return { url: 'https://journals.asm.org/doi/10.1128/iai.00239-24', label: 'Read full paper at journals.asm.org' };
   }
   if (t.includes('antibodies targeting the crimean-congo hemorrhagic fever virus nucleoprotein protect via trim21')) {
-    return { url: 'https://www.nature.com/articles/s41467-024-53362-7', label: 'Nature Full Paper' };
+    return { url: 'https://www.nature.com/articles/s41467-024-53362-7', label: 'Read full paper at nature.com' };
   }
   if (t.includes('a replicating rna vaccine protects against lethal clade 2.3.4.4b influenza a h5n1 virus challenge in cynomolgus macaques')) {
-    return { url: 'https://doi.org/10.21203/rs.3.rs-5723772/v1', label: 'Preprint Full Text' };
+    return { url: 'https://doi.org/10.21203/rs.3.rs-5723772/v1', label: 'Read full paper at researchsquare.com' };
   }
   if (t.includes('a replicating rna vaccine protects cynomolgus macaques against lethal clade 2.3.4.4b influenza a h5n1')) {
-    return { url: 'https://www.science.org/doi/10.1126/scitranslmed.adw4646', label: 'Science Full Paper' };
+    return { url: 'https://www.science.org/doi/10.1126/scitranslmed.adw4646', label: 'Read full paper at science.org' };
   }
   if (t.includes('single-dose replicon rna sudan virus vaccine uniformly protects')) {
-    return { url: 'https://www.nature.com/articles/s41467-025-59560-1', label: 'Nature Full Paper' };
+    return { url: 'https://www.nature.com/articles/s41467-025-59560-1', label: 'Read full paper at nature.com' };
   }
   if (t.includes('antigen-dependent interplay of formulation, systemic innate responses') || t.includes('anti-enterovirus antibody responses from multivalent replicon rna')) {
-    return { url: 'https://doi.org/10.1016/j.omtn.2025.102595', label: 'Cell Press Full Paper' };
+    return { url: 'https://doi.org/10.1016/j.omtn.2025.102595', label: 'Read full paper at cell.com' };
   }
   if (t.includes('high-resolution in situ structures of hantavirus glycoprotein tetramers')) {
-    return { url: 'https://doi.org/10.1016/j.cell.2026.01.030', label: 'Cell Full Paper' };
+    return { url: 'https://doi.org/10.1016/j.cell.2026.01.030', label: 'Read full paper at cell.com' };
   }
   if (t.includes('a replicating rna vaccine protects against severe fever with thrombocytopenia syndrome')) {
-    return { url: 'https://www.nature.com/articles/s41541-025-01269-9', label: 'Nature Full Paper' };
+    return { url: 'https://www.nature.com/articles/s41541-025-01269-9', label: 'Read full paper at nature.com' };
   }
   if (t.includes('a localizing replicon rna vaccine harnesses the intramuscular immune microenvironment') || t.includes('shapes a local muscle immune landscape to coordinate adaptive responses')) {
-    return { url: 'https://doi.org/10.21203/rs.3.rs-8022891/v1', label: 'Publisher Full Text' };
+    return { url: 'https://doi.org/10.21203/rs.3.rs-8022891/v1', label: 'Read full paper at cell.com' };
   }
   if (t.includes('an rna-to-rna pipeline for rapid antiviral antibody development')) {
-    return { url: 'https://doi.org/10.1016/j.ymthe.2026.04.021', label: 'Cell Press Full Paper' };
+    return { url: 'https://doi.org/10.1016/j.ymthe.2026.04.021', label: 'Read full paper at cell.com' };
   }
   if (p.includes('15/958,931')) {
-    return { url: 'https://patents.google.com/patent/US20190324033A1/en', label: 'US Patent Office / Full Text' };
+    return { url: 'https://patents.google.com/patent/US20190324033A1/en', label: 'Read full paper at patents.google.com' };
   }
   if (p.includes('17/049,280')) {
-    return { url: 'https://patents.google.com/patent/WO2019204706A1/en', label: 'Patent Full Text' };
+    return { url: 'https://patents.google.com/patent/WO2019204706A1/en', label: 'Read full paper at patents.google.com' };
   }
   if (p.includes('cornell university')) {
-    return { url: 'https://ecommons.cornell.edu/', label: 'Cornell eCommons' };
+    return { url: 'https://ecommons.cornell.edu/', label: 'Read full paper at ecommons.cornell.edu' };
   }
   if (venue.includes('ACS')) {
-    return { url: 'https://pubs.acs.org/', label: 'ACS Publications' };
+    return { url: 'https://pubs.acs.org/', label: 'Read full paper at pubs.acs.org' };
   }
-  return { url: `https://doi.org/`, label: 'Publisher Site' };
+  return { url: `https://doi.org/`, label: 'Read full paper at doi.org' };
 }
 
 // Classify record into Type and Topic Pillar
@@ -402,7 +402,7 @@ function formatAuthorsHTML(authors) {
     .map(author => {
       const isSelf = /Hinkley/i.test(author);
       if (isSelf) {
-        return `<span class="author-self">${escapeHTML(author)}</span>`;
+        return `<strong class="author-self">${escapeHTML(author)}</strong>`;
       }
       return escapeHTML(author);
     })
