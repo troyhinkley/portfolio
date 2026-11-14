@@ -367,22 +367,63 @@ body {
   gap: 12px;
 }
 
-/* Hero Metrics Card */
+/* Hero Citations Card */
 .hero-metrics-card {
   background: var(--bg-elevated);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 24px;
+  padding: 26px;
   box-shadow: var(--shadow-md);
 }
 
-.metrics-header {
+.citations-card-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 18px;
-  padding-bottom: 12px;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
   border-bottom: 1px solid var(--border-color);
+}
+
+.citations-card-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.65rem;
+  line-height: 1.15;
+  color: var(--text-primary);
+  margin-top: 2px;
+}
+
+.citation-kpis {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.kpi-pill {
+  background: var(--bg-subtle);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  border: 1px solid var(--border-color);
+}
+
+.kpi-num {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  line-height: 1.05;
+  color: var(--accent-primary);
+}
+
+.kpi-lbl {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .mono-label {
@@ -403,112 +444,59 @@ body {
   color: var(--text-secondary);
 }
 
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-bottom: 22px;
-}
-
-.stat-item {
-  background: var(--bg-subtle);
-  padding: 12px 10px;
-  border-radius: var(--radius-sm);
-  text-align: center;
-  border: 1px solid transparent;
-}
-
-.stat-value {
-  display: block;
-  font-family: var(--font-serif);
-  font-size: 2rem;
-  line-height: 1;
-  color: var(--accent-primary);
-  margin-bottom: 4px;
-}
-
-.stat-label {
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-/* Timeline Bar Chart */
+/* Citations Per Year Bar Chart */
 .timeline-box {
   background: var(--bg-subtle);
   border-radius: var(--radius-md);
-  padding: 14px 16px;
+  padding: 18px 16px 14px;
   margin-bottom: 18px;
-}
-
-.timeline-box-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.timeline-hint {
-  font-size: 0.72rem;
-  color: var(--text-muted);
 }
 
 .timeline-bars {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 6px;
-  height: 86px;
-  padding-top: 14px;
+  gap: 8px;
+  height: 148px;
+  padding-top: 18px;
 }
 
-.year-bar-btn {
+.year-bar-col {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
   height: 100%;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  group: year;
 }
 
 .year-bar-count {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--text-muted);
-  margin-bottom: 3px;
-  opacity: 0.85;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
 }
 
 .year-bar-fill {
   width: 100%;
-  max-width: 24px;
-  background: color-mix(in srgb, var(--accent-primary) 68%, transparent);
-  border-radius: 3px 3px 0 0;
-  transition: all 0.2s ease;
-  min-height: 4px;
+  max-width: 28px;
+  background: color-mix(in srgb, var(--accent-primary) 78%, transparent);
+  border-radius: 4px 4px 0 0;
+  transition: all 0.25s ease;
+  min-height: 6px;
 }
 
-.year-bar-btn:hover .year-bar-fill,
-.year-bar-btn.active .year-bar-fill {
+.year-bar-col:hover .year-bar-fill {
   background: var(--accent-primary);
-  transform: scaleY(1.05);
-}
-
-.year-bar-btn.active .year-bar-label {
-  color: var(--accent-primary);
-  font-weight: 700;
+  transform: scaleY(1.03);
 }
 
 .year-bar-label {
   font-family: var(--font-mono);
-  font-size: 0.63rem;
+  font-size: 0.66rem;
   color: var(--text-muted);
-  margin-top: 5px;
+  margin-top: 7px;
 }
 
 .journal-marquee {

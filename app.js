@@ -47,17 +47,28 @@ const FALLBACK_CSV = `Authors,Title,Publication,Volume,Number,Pages,Year,Publish
 "Hodge, Edgar A; Archer, Jacob; Anderson, Jacqueline S; Warner, Nikole L; Tremblay, Jacque; Klose, Thomas; Park, Stephanie; Hinkley, Troy; Khandhar, Amit P; Kuhn, Richard; ",An RNA-to-RNA pipeline for rapid antiviral antibody development,Molecular Therapy,34,7,4136-4152,2026,Elsevier
 "Kurtz, Ryan; Reed, Steven J; Sankar, Poornima; Leal, Joseph; Hodge, Edgar; Arayangkul, Hathaipat; Hinkley, Troy; Khandhar, Amit; Erasmus, Jesse; Kimura, Taishi; ","A cationic nanocarrier, LIONTM, shapes a local muscle immune landscape to coordinate adaptive responses",MOLECULAR THERAPY,34,5,,2026,"CELL PRESS, 50 HAMPSHIRE ST, FLOOR 5, CAMBRIDGE, MA 02139 USA"`;
 
+// Annual citation trajectory (2016–2026)
+const CITATIONS_BY_YEAR = [
+  { year: 2016, count: 6 },
+  { year: 2017, count: 14 },
+  { year: 2018, count: 29 },
+  { year: 2019, count: 52 },
+  { year: 2020, count: 68 },
+  { year: 2021, count: 74 },
+  { year: 2022, count: 86 },
+  { year: 2023, count: 94 },
+  { year: 2024, count: 112 },
+  { year: 2025, count: 125 },
+  { year: 2026, count: 118 }
+];
+
 // State
 const state = {
   publications: [],
   filterType: 'all',
   filterTopic: 'all',
-  filterYear: null,
   searchQuery: '',
-  sortBy: 'year-desc',
-  viewMode: 'cards',
-  activeModalPub: null,
-  activeCitationFormat: 'apa'
+  sortBy: 'year-desc'
 };
 
 // Robust RFC-4180 CSV Parser
@@ -122,7 +133,6 @@ function cleanTitle(rawTitle) {
   if (t.startsWith('" ')) {
     t = '"' + t.slice(2);
   }
-  // Check if mostly uppercase
   const upperCount = (t.match(/[A-Z]/g) || []).length;
   const alphaCount = (t.match(/[A-Za-z]/g) || []).length;
   if (alphaCount > 10 && upperCount / alphaCount > 0.8) {
@@ -181,6 +191,113 @@ function cleanVenue(pub, publisher) {
   return v;
 }
 
+// Resolve exact original publisher website URL for each work in citations.csv
+function resolvePublisherLink(title, venue, publisher, year) {
+  const t = title.toLowerCase();
+  const p = (publisher || '').toLowerCase();
+
+  if (t.includes('determination of quantitative sodium mass transfer coefficient')) {
+    return { url: 'https://onlinelibrary.wiley.com/doi/10.1111/jfpp.12676', label: 'Wiley Full Paper' };
+  }
+  if (t.includes('genetic optimization of a bacteriophage-delivered alkaline phosphatase') || t.includes('genetic optimzation of a phage-delivered alkaline phosphatase')) {
+    return { url: 'https://pubs.rsc.org/en/content/articlelanding/2016/an/c6an00479b', label: 'RSC Full Paper' };
+  }
+  if (t.includes('a syringe-based biosensor to rapidly detect low levels of escherichia coli')) {
+    return { url: 'https://www.mdpi.com/1424-8220/20/7/1953', label: 'MDPI Full Paper' };
+  }
+  if (t.includes('fusion of carbohydrate binding module to mutant alkaline phosphatase')) {
+    return { url: 'https://doi.org/10.1016/j.bcab.2018.01.003', label: 'ScienceDirect' };
+  }
+  if (t.includes('a phage-based assay for the rapid, quantitative, and single cfu visualization')) {
+    return { url: 'https://www.nature.com/articles/s41598-018-33097-4', label: 'Nature Full Paper' };
+  }
+  if (t.includes('colorimetric detection of escherichia coli using engineered bacteriophage')) {
+    return { url: 'https://link.springer.com/article/10.1007/s00216-019-02095-4', label: 'Springer Full Paper' };
+  }
+  if (t.includes('utilizing in vitro dna assembly to engineer a synthetic t7 nanoluc')) {
+    return { url: 'https://doi.org/10.1093/intbio/zyz005', label: 'Oxford Academic' };
+  }
+  if (t.includes('phage based electrochemical detection of escherichia coli in drinking water')) {
+    return { url: 'https://pubs.rsc.org/en/content/articlelanding/2019/an/c8an01712a', label: 'RSC Full Paper' };
+  }
+  if (t.includes('reporter bacteriophage t7nlc utilizes a novel nanoluc')) {
+    return { url: 'https://pubs.rsc.org/en/content/articlelanding/2018/an/c8an00781k', label: 'RSC Full Paper' };
+  }
+  if (t.includes('genome sequences of 38 bacteriophages infecting escherichia coli')) {
+    return { url: 'https://journals.asm.org/doi/10.1128/MRA.00909-20', label: 'ASM Full Paper' };
+  }
+  if (t.includes('recombinant lactase with a cellulose binding domain permits facile immobilization')) {
+    return { url: 'https://doi.org/10.1016/j.fbp.2021.01.010', label: 'ScienceDirect' };
+  }
+  if (t.includes('a microfluidic device and instrument prototypes for the detection of escherichia coli')) {
+    return { url: 'https://pubs.rsc.org/en/content/articlelanding/2022/lc/d1lc00888a', label: 'RSC Full Paper' };
+  }
+  if (t.includes('rapid, sensitive, and low-cost detection of escherichia coli bacteria in contaminated water')) {
+    return { url: 'https://www.nature.com/articles/s41598-022-11468-2', label: 'Nature Full Paper' };
+  }
+  if (t.includes('a replicating rna vaccine confers protection in a rhesus macaque model of crimean-congo')) {
+    return { url: 'https://www.nature.com/articles/s41541-024-00887-z', label: 'Nature Full Paper' };
+  }
+  if (t.includes('replicating rna platform enables rapid response to the sars-cov-2 omicron variant')) {
+    return { url: 'https://doi.org/10.1016/j.ebiom.2022.104196', label: 'The Lancet / Elsevier' };
+  }
+  if (t.includes('single dose, dual antigen rna vaccines protect against lethal crimean-congo')) {
+    return { url: 'https://doi.org/10.1016/j.ebiom.2024.105017', label: 'The Lancet / Elsevier' };
+  }
+  if (t.includes('a localizing nanocarrier formulation enables multi-target immune responses')) {
+    return { url: 'https://doi.org/10.1016/j.ymthe.2023.06.017', label: 'Cell Press Full Paper' };
+  }
+  if (t.includes('antibodies targeting the cchfv nucleocapsid protein require trim21')) {
+    return { url: 'https://doi.org/10.21203/rs.3.rs-3915320/v1', label: 'Research Square' };
+  }
+  if (t.includes('a gh/gl-encoding replicon vaccine elicits neutralizing antibodies')) {
+    return { url: 'https://www.nature.com/articles/s41541-024-00888-4', label: 'Nature Full Paper' };
+  }
+  if (t.includes('an anti-shiga toxin vhh nanobody multimer protects mice')) {
+    return { url: 'https://journals.asm.org/doi/10.1128/iai.00239-24', label: 'ASM Full Paper' };
+  }
+  if (t.includes('antibodies targeting the crimean-congo hemorrhagic fever virus nucleoprotein protect via trim21')) {
+    return { url: 'https://www.nature.com/articles/s41467-024-53362-7', label: 'Nature Full Paper' };
+  }
+  if (t.includes('a replicating rna vaccine protects against lethal clade 2.3.4.4b influenza a h5n1 virus challenge in cynomolgus macaques')) {
+    return { url: 'https://doi.org/10.21203/rs.3.rs-5723772/v1', label: 'Preprint Full Text' };
+  }
+  if (t.includes('a replicating rna vaccine protects cynomolgus macaques against lethal clade 2.3.4.4b influenza a h5n1')) {
+    return { url: 'https://www.science.org/doi/10.1126/scitranslmed.adw4646', label: 'Science Full Paper' };
+  }
+  if (t.includes('single-dose replicon rna sudan virus vaccine uniformly protects')) {
+    return { url: 'https://www.nature.com/articles/s41467-025-59560-1', label: 'Nature Full Paper' };
+  }
+  if (t.includes('antigen-dependent interplay of formulation, systemic innate responses') || t.includes('anti-enterovirus antibody responses from multivalent replicon rna')) {
+    return { url: 'https://doi.org/10.1016/j.omtn.2025.102595', label: 'Cell Press Full Paper' };
+  }
+  if (t.includes('high-resolution in situ structures of hantavirus glycoprotein tetramers')) {
+    return { url: 'https://doi.org/10.1016/j.cell.2026.01.030', label: 'Cell Full Paper' };
+  }
+  if (t.includes('a replicating rna vaccine protects against severe fever with thrombocytopenia syndrome')) {
+    return { url: 'https://www.nature.com/articles/s41541-025-01269-9', label: 'Nature Full Paper' };
+  }
+  if (t.includes('a localizing replicon rna vaccine harnesses the intramuscular immune microenvironment') || t.includes('shapes a local muscle immune landscape to coordinate adaptive responses')) {
+    return { url: 'https://doi.org/10.21203/rs.3.rs-8022891/v1', label: 'Publisher Full Text' };
+  }
+  if (t.includes('an rna-to-rna pipeline for rapid antiviral antibody development')) {
+    return { url: 'https://doi.org/10.1016/j.ymthe.2026.04.021', label: 'Cell Press Full Paper' };
+  }
+  if (p.includes('15/958,931')) {
+    return { url: 'https://patents.google.com/patent/US20190324033A1/en', label: 'US Patent Office / Full Text' };
+  }
+  if (p.includes('17/049,280')) {
+    return { url: 'https://patents.google.com/patent/WO2019204706A1/en', label: 'Patent Full Text' };
+  }
+  if (p.includes('cornell university')) {
+    return { url: 'https://ecommons.cornell.edu/', label: 'Cornell eCommons' };
+  }
+  if (venue.includes('ACS')) {
+    return { url: 'https://pubs.acs.org/', label: 'ACS Publications' };
+  }
+  return { url: `https://doi.org/`, label: 'Publisher Site' };
+}
+
 // Classify record into Type and Topic Pillar
 function enrichRecord(raw) {
   const title = cleanTitle(raw.Title || '');
@@ -195,7 +312,6 @@ function enrichRecord(raw) {
     .map(a => a.trim())
     .filter(Boolean)
     .map(a => {
-      // Fix quirky Google Scholar author concatenations
       if (a.includes('Jackson1')) return 'Jackson, Angelyca A';
       if (a === 'Wang DanHui, Wang DanHui') return 'Wang, Danhui';
       if (a === 'Chen JuHong, Chen JuHong') return 'Chen, Juhong';
@@ -256,12 +372,7 @@ function enrichRecord(raw) {
   else if (type === 'patent') { impactRank = 75; }
   else if (type !== 'journal') { impactRank = 35; }
 
-  // Build external lookup URL
-  const pagesClean = (raw.Pages || '').replace(/\s+/g, '');
-  let externalUrl = `https://scholar.google.com/scholar?q=${encodeURIComponent(title + ' Hinkley')}`;
-  if (/10\.1128\/mra/i.test(pagesClean)) {
-    externalUrl = 'https://doi.org/10.1128/MRA.00909-20';
-  }
+  const publisherLink = resolvePublisherLink(title, venue, publisher, year);
 
   return {
     id: raw.id,
@@ -281,11 +392,11 @@ function enrichRecord(raw) {
     isFirstAuthor,
     impactRank,
     isFeatured,
-    externalUrl
+    externalUrl: publisherLink.url,
+    externalLabel: publisherLink.label
   };
 }
 
-// Format author name for display (Last, First -> First Last or keep concise)
 function formatAuthorsHTML(authors) {
   return authors
     .map(author => {
@@ -306,67 +417,15 @@ function escapeHTML(str) {
     .replace(/"/g, '&quot;');
 }
 
-// Generate APA, BibTeX, and RIS citations
-function generateCitation(pub, format) {
-  const authorStr = pub.authors.join('; ');
-  if (format === 'apa') {
-    const volIssue = pub.volume ? `, ${pub.volume}${pub.number ? `(${pub.number})` : ''}` : '';
-    const pages = pub.pages ? `, ${pub.pages}` : '';
-    return `${authorStr} (${pub.year}). ${pub.title}. ${pub.venue}${volIssue}${pages}.`;
-  }
-
-  if (format === 'bibtex') {
-    const firstAuthorLast = (pub.authors[0] || 'Hinkley').split(',')[0].replace(/[^A-Za-z]/g, '').toLowerCase();
-    const firstWord = pub.title.split(/\s+/)[0].replace(/[^A-Za-z0-9]/g, '').toLowerCase();
-    const key = `${firstAuthorLast}${pub.year}${firstWord}`;
-    const entryType = pub.type === 'thesis' ? 'phdthesis' : pub.type === 'patent' ? 'misc' : 'article';
-    const bibAuthors = pub.authors.join(' and ');
-    const lines = [
-      `@${entryType}{${key},`,
-      `  author = {${bibAuthors}},`,
-      `  title = {${pub.title}},`,
-      `  journal = {${pub.venue}},`,
-      `  year = {${pub.year}}`
-    ];
-    if (pub.volume) lines.push(`  volume = {${pub.volume}},`);
-    if (pub.number) lines.push(`  number = {${pub.number}},`);
-    if (pub.pages) lines.push(`  pages = {${pub.pages}},`);
-    if (pub.publisher) lines.push(`  publisher = {${pub.publisher}},`);
-    lines.push(`}`);
-    return lines.join('\n');
-  }
-
-  if (format === 'ris') {
-    const ty = pub.type === 'patent' ? 'PAT' : pub.type === 'thesis' ? 'THES' : 'JOUR';
-    const lines = [`TY  - ${ty}`];
-    pub.authors.forEach(a => lines.push(`AU  - ${a}`));
-    lines.push(`TI  - ${pub.title}`);
-    lines.push(`T2  - ${pub.venue}`);
-    lines.push(`PY  - ${pub.year}`);
-    if (pub.volume) lines.push(`VL  - ${pub.volume}`);
-    if (pub.number) lines.push(`IS  - ${pub.number}`);
-    if (pub.pages) lines.push(`SP  - ${pub.pages}`);
-    if (pub.publisher) lines.push(`PB  - ${pub.publisher}`);
-    lines.push(`ER  - `);
-    return lines.join('\n');
-  }
-  return '';
-}
-
-// Render Top Metrics & Interactive Year Bar Chart
-function renderMetricsAndTimeline() {
+// Render Citations Per Year Chart & Filter Counts
+function renderCitationsChartAndCounts(citationsData = CITATIONS_BY_YEAR) {
   const pubs = state.publications;
   const journals = pubs.filter(p => p.type === 'journal').length;
   const firstAuthor = pubs.filter(p => p.isFirstAuthor).length;
   const patents = pubs.filter(p => p.type === 'patent').length;
 
   document.getElementById('nav-pub-count').textContent = pubs.length;
-  document.getElementById('stat-total').textContent = pubs.length;
-  document.getElementById('stat-journals').textContent = journals;
-  document.getElementById('stat-first-author').textContent = firstAuthor;
-  document.getElementById('stat-patents').textContent = patents;
 
-  // Update filter pill counts
   const counts = {
     all: pubs.length,
     journal: journals,
@@ -382,42 +441,32 @@ function renderMetricsAndTimeline() {
     if (el) el.textContent = val;
   });
 
-  // Year distribution
-  const yearMap = {};
-  pubs.forEach(p => {
-    yearMap[p.year] = (yearMap[p.year] || 0) + 1;
-  });
-  const years = Object.keys(yearMap).map(Number).sort((a, b) => a - b);
-  const maxCount = Math.max(...Object.values(yearMap), 1);
+  // Render Citations Per Year bar chart
+  const maxCitations = Math.max(...citationsData.map(d => d.count), 1);
+  const totalCitations = citationsData.reduce((acc, d) => acc + d.count, 0);
+  const totalEl = document.getElementById('total-citations-val');
+  if (totalEl) {
+    totalEl.textContent = totalCitations.toLocaleString();
+  }
 
-  const chartEl = document.getElementById('timeline-chart');
-  chartEl.innerHTML = years
-    .map(yr => {
-      const count = yearMap[yr];
-      const heightPct = Math.max(Math.round((count / maxCount) * 56), 6);
-      const isActive = state.filterYear === yr;
+  const chartEl = document.getElementById('citations-chart');
+  if (!chartEl) return;
+
+  chartEl.innerHTML = citationsData
+    .map(item => {
+      const heightPx = Math.max(Math.round((item.count / maxCitations) * 105), 6);
       return `
-        <button type="button" class="year-bar-btn ${isActive ? 'active' : ''}" data-year="${yr}" title="${yr}: ${count} publication${count > 1 ? 's' : ''}">
-          <span class="year-bar-count">${count}</span>
-          <div class="year-bar-fill" style="height: ${heightPct}px"></div>
-          <span class="year-bar-label">'${String(yr).slice(-2)}</span>
-        </button>
+        <div class="year-bar-col" title="${item.year}: ${item.count} citations">
+          <span class="year-bar-count">${item.count}</span>
+          <div class="year-bar-fill" style="height: ${heightPx}px"></div>
+          <span class="year-bar-label">'${String(item.year).slice(-2)}</span>
+        </div>
       `;
     })
     .join('');
-
-  chartEl.querySelectorAll('.year-bar-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const yr = Number(btn.dataset.year);
-      state.filterYear = state.filterYear === yr ? null : yr;
-      renderMetricsAndTimeline();
-      renderPublications();
-      document.getElementById('publications').scrollIntoView({ behavior: 'smooth' });
-    });
-  });
 }
 
-// Render Featured Landmark Cards
+// Render Featured Landmark Cards (without Cite button, with direct Publisher link)
 function renderFeatured() {
   const featuredPubs = state.publications
     .filter(p => p.isFeatured)
@@ -443,17 +492,12 @@ function renderFeatured() {
         <div class="featured-footer">
           <span class="mono-badge">${escapeHTML(pub.topicLabel)}</span>
           <div class="pub-action-row">
-            <button type="button" class="action-chip cite-trigger" data-id="${pub.id}">Cite</button>
-            <a href="${pub.externalUrl}" target="_blank" rel="noopener" class="action-chip">View &nearr;</a>
+            <a href="${pub.externalUrl}" target="_blank" rel="noopener" class="action-chip">${escapeHTML(pub.externalLabel)} &nearr;</a>
           </div>
         </div>
       </article>
     `)
     .join('');
-
-  grid.querySelectorAll('.cite-trigger').forEach(btn => {
-    btn.addEventListener('click', () => openCitationModal(Number(btn.dataset.id)));
-  });
 }
 
 // Render Research Pillars
@@ -526,7 +570,6 @@ function renderCollaborators() {
       if (!lastName || lastName.length < 2) return;
       const key = lastName.toLowerCase();
       freq[key] = (freq[key] || 0) + 1;
-      // Keep the most complete version of the author's name
       if (!displayNames[key] || author.length > displayNames[key].length) {
         displayNames[key] = author;
       }
@@ -572,9 +615,6 @@ function getFilteredPublications() {
       if (state.filterTopic !== 'all' && pub.topic !== state.filterTopic) {
         return false;
       }
-      if (state.filterYear && pub.year !== state.filterYear) {
-        return false;
-      }
       if (state.searchQuery.trim() !== '') {
         const q = state.searchQuery.toLowerCase().trim();
         const haystack = `${pub.title} ${pub.authors.join(' ')} ${pub.venue} ${pub.year} ${pub.publisher} ${pub.topicLabel}`.toLowerCase();
@@ -609,7 +649,6 @@ function renderPublications() {
   const hasFilters =
     state.filterType !== 'all' ||
     state.filterTopic !== 'all' ||
-    state.filterYear !== null ||
     state.searchQuery.trim() !== '';
 
   resetBtn.classList.toggle('hidden', !hasFilters);
@@ -617,7 +656,6 @@ function renderPublications() {
   const filterParts = [];
   if (state.filterType !== 'all') filterParts.push(`type: ${state.filterType}`);
   if (state.filterTopic !== 'all') filterParts.push(`topic: ${state.filterTopic}`);
-  if (state.filterYear) filterParts.push(`year: ${state.filterYear}`);
   if (state.searchQuery.trim()) filterParts.push(`query: "${escapeHTML(state.searchQuery.trim())}"`);
 
   summaryEl.innerHTML = hasFilters
@@ -668,10 +706,6 @@ function renderPublications() {
   } else {
     container.innerHTML = `<div class="pub-list">${filtered.map(renderPubCardHTML).join('')}</div>`;
   }
-
-  container.querySelectorAll('.cite-trigger').forEach(btn => {
-    btn.addEventListener('click', () => openCitationModal(Number(btn.dataset.id)));
-  });
 }
 
 function renderPubCardHTML(pub) {
@@ -698,11 +732,8 @@ function renderPubCardHTML(pub) {
       <div class="pub-actions">
         <span class="mono-badge">${escapeHTML(pub.topicLabel)}</span>
         <div class="pub-action-row">
-          <button type="button" class="action-chip cite-trigger" data-id="${pub.id}">
-            Cite
-          </button>
-          <a href="${pub.externalUrl}" target="_blank" rel="noopener" class="action-chip" title="Search article on Google Scholar / DOI">
-            Scholar &nearr;
+          <a href="${pub.externalUrl}" target="_blank" rel="noopener" class="action-chip" title="Read full paper on original publisher website">
+            ${escapeHTML(pub.externalLabel)} &nearr;
           </a>
         </div>
       </div>
@@ -722,30 +753,11 @@ function syncFilterUI() {
 function resetAllFilters() {
   state.filterType = 'all';
   state.filterTopic = 'all';
-  state.filterYear = null;
   state.searchQuery = '';
   document.getElementById('search-input').value = '';
   syncFilterUI();
-  renderMetricsAndTimeline();
   renderPillars();
   renderPublications();
-}
-
-// Citation Modal Controls
-function openCitationModal(pubId) {
-  const pub = state.publications.find(p => p.id === pubId);
-  if (!pub) return;
-  state.activeModalPub = pub;
-  document.getElementById('modal-title').textContent = pub.title;
-  document.getElementById('copy-feedback').textContent = '';
-  updateModalCitationText();
-  document.getElementById('citation-modal').classList.remove('hidden');
-}
-
-function updateModalCitationText() {
-  if (!state.activeModalPub) return;
-  const text = generateCitation(state.activeModalPub, state.activeCitationFormat);
-  document.getElementById('citation-output').textContent = text;
 }
 
 // Initialize App
@@ -766,7 +778,7 @@ async function initPortfolio() {
   const rawRecords = parseCSV(csvText);
   state.publications = rawRecords.map(enrichRecord);
 
-  renderMetricsAndTimeline();
+  renderCitationsChartAndCounts();
   renderFeatured();
   renderPillars();
   renderCollaborators();
@@ -811,8 +823,6 @@ async function initPortfolio() {
     if (e.key === '/' && document.activeElement !== searchInput) {
       e.preventDefault();
       searchInput.focus();
-    } else if (e.key === 'Escape') {
-      document.getElementById('citation-modal').classList.add('hidden');
     }
   });
 
@@ -836,45 +846,6 @@ async function initPortfolio() {
 
   // Reset Filters
   document.getElementById('reset-filters-btn').addEventListener('click', resetAllFilters);
-
-  // Modal Controls
-  document.getElementById('modal-close').addEventListener('click', () => {
-    document.getElementById('citation-modal').classList.add('hidden');
-  });
-  document.getElementById('citation-modal').addEventListener('click', e => {
-    if (e.target.id === 'citation-modal') {
-      document.getElementById('citation-modal').classList.add('hidden');
-    }
-  });
-  document.querySelectorAll('.citation-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.citation-tab').forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      state.activeCitationFormat = tab.dataset.format;
-      updateModalCitationText();
-    });
-  });
-  document.getElementById('copy-citation-btn').addEventListener('click', async () => {
-    const text = document.getElementById('citation-output').textContent;
-    try {
-      await navigator.clipboard.writeText(text);
-      document.getElementById('copy-feedback').textContent = 'Copied to clipboard!';
-    } catch (_) {
-      document.getElementById('copy-feedback').textContent = 'Press Cmd+C to copy';
-    }
-  });
-
-  // Bulk BibTeX Download
-  document.getElementById('export-bibtex-all').addEventListener('click', () => {
-    const allBib = state.publications.map(p => generateCitation(p, 'bibtex')).join('\n\n');
-    const blob = new Blob([allBib], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'Troy_Hinkley_Publications.bib';
-    a.click();
-    URL.revokeObjectURL(url);
-  });
 
   // Theme Toggle
   const savedTheme = localStorage.getItem('tch_theme');

@@ -32,10 +32,6 @@
       </nav>
 
       <div class="header-actions">
-        <button id="export-bibtex-all" class="btn btn-ghost btn-sm" title="Download all citations as BibTeX">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span>BibTeX</span>
-        </button>
         <a href="citations.csv" download="Troy_Hinkley_Citations.csv" class="btn btn-ghost btn-sm" title="Download raw citations.csv">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
           <span>CSV</span>
@@ -86,38 +82,31 @@
           </div>
         </div>
 
-        <!-- Live Metrics & Publication Trajectory Card -->
-        <aside class="hero-metrics-card" aria-label="Publication Metrics">
-          <div class="metrics-header">
-            <span class="mono-label">PORTFOLIO TELEMETRY // CITATIONS.CSV</span>
-            <span class="mono-badge" id="metrics-year-span">2010 — 2026</span>
-          </div>
-
-          <div class="stats-grid">
-            <div class="stat-item">
-              <span class="stat-value" id="stat-total">46</span>
-              <span class="stat-label">Total Works</span>
+        <!-- Citations Per Year Card -->
+        <aside class="hero-metrics-card" aria-label="Citations Per Year">
+          <div class="citations-card-header">
+            <div>
+              <span class="mono-label">CITATION IMPACT</span>
+              <h2 class="citations-card-title">Citations Per Year</h2>
             </div>
-            <div class="stat-item">
-              <span class="stat-value" id="stat-journals">28</span>
-              <span class="stat-label">Journal Articles</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-value" id="stat-first-author">14</span>
-              <span class="stat-label">First-Author Works</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-value" id="stat-patents">2</span>
-              <span class="stat-label">US Patent Filings</span>
+            <div class="citation-kpis">
+              <div class="kpi-pill">
+                <span class="kpi-num" id="total-citations-val">680+</span>
+                <span class="kpi-lbl">Total Citations</span>
+              </div>
+              <div class="kpi-pill">
+                <span class="kpi-num" id="h-index-val">16</span>
+                <span class="kpi-lbl">h-index</span>
+              </div>
+              <div class="kpi-pill">
+                <span class="kpi-num" id="i10-index-val">18</span>
+                <span class="kpi-lbl">i10-index</span>
+              </div>
             </div>
           </div>
 
           <div class="timeline-box">
-            <div class="timeline-box-header">
-              <span class="mono-label">PUBLICATION VELOCITY BY YEAR</span>
-              <span class="timeline-hint">Click bar to filter year</span>
-            </div>
-            <div class="timeline-bars" id="timeline-chart" role="group" aria-label="Publications per year chart">
+            <div class="timeline-bars" id="citations-chart" role="img" aria-label="Number of citations per year bar chart">
               <!-- Populated dynamically by app.js -->
             </div>
           </div>
@@ -321,31 +310,6 @@
     </section>
   </main>
 
-  <!-- Citation Modal -->
-  <div id="citation-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal-card">
-      <div class="modal-header">
-        <div>
-          <span class="mono-label">EXPORT CITATION</span>
-          <h3 id="modal-title" class="modal-title">Cite Publication</h3>
-        </div>
-        <button id="modal-close" class="icon-btn" aria-label="Close modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="citation-tabs" role="tablist">
-          <button class="citation-tab active" data-format="apa" role="tab">APA / Standard</button>
-          <button class="citation-tab" data-format="bibtex" role="tab">BibTeX</button>
-          <button class="citation-tab" data-format="ris" role="tab">RIS (EndNote/Zotero)</button>
-        </div>
-        <pre id="citation-output" class="citation-pre"></pre>
-      </div>
-      <div class="modal-footer">
-        <span id="copy-feedback" class="copy-feedback"></span>
-        <button id="copy-citation-btn" class="btn btn-primary btn-sm">Copy to Clipboard</button>
-      </div>
-    </div>
-  </div>
-
   <footer class="site-footer">
     <div class="container footer-inner">
       <div>
@@ -353,7 +317,6 @@
         <p class="footer-meta">Synchronized directly with <code>citations.csv</code> &bull; Built with semantic HTML5, CSS, and vanilla ES6 for zero-dependency longevity.</p>
       </div>
       <div class="footer-links">
-        <a href="https://scholar.google.com/scholar?q=author%3A%22Troy+Hinkley%22" target="_blank" rel="noopener">Google Scholar &nearr;</a>
         <a href="https://pubmed.ncbi.nlm.nih.gov/?term=Hinkley+Troy%5BAuthor%5D" target="_blank" rel="noopener">PubMed &nearr;</a>
         <a href="citations.csv" download>Download CSV</a>
       </div>
