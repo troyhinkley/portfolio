@@ -298,6 +298,36 @@ function resolvePublisherLink(title, venue, publisher, year) {
   return { url: `https://doi.org/`, label: 'Read full paper at doi.org' };
 }
 
+// Convert "Last, First Middle" -> "First Middle Last"
+function toFirstMiddleLast(authorStr) {
+  const s = (authorStr || '').trim();
+  if (!s.includes(',')) return s;
+  const parts = s.split(',').map(p => p.trim());
+  let last = parts[0];
+  const firstMiddle = parts.slice(1).join(' ');
+  let suffix = '';
+  if (/\bJr\.?$/i.test(last)) {
+    last = last.replace(/\s+\bJr\.?$/i, '').trim();
+    suffix = ' Jr.';
+  }
+  return `${firstMiddle} ${last}${suffix}`
+    .replace(/Kevin Paul Flood Nichols/i, 'Kevin P Nichols')
+    .replace(/Sam Rasmussen Nugen/i, 'Sam R Nugen')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+// Extract surname for co-author grouping
+function extractSurname(authorStr) {
+  const s = (authorStr || '').trim();
+  if (s.includes(',')) {
+    return s.split(',')[0].replace(/\s+\bJr\.?$/i, '').trim();
+  }
+  const clean = s.replace(/\s+\bJr\.?$/i, '').trim();
+  if (/Anne-Laure.*Le Ny/i.test(clean)) return 'Le Ny';
+  const tokens = clean.split(/\s+/);
+  return tokens[tokens.length - 1] || clean;
+}
 // Classify record into Type and Topic Pillar
 function enrichRecord(raw) {
   const title = cleanTitle(raw.Title || '');
@@ -306,18 +336,18 @@ function enrichRecord(raw) {
   const venue = cleanVenue(rawVenue, publisher);
   const year = parseInt(raw.Year, 10) || 2020;
 
-  // Parse authors
+  // Parse authors and convert to "First Middle Last"
   const rawAuthors = (raw.Authors || '')
     .split(';')
     .map(a => a.trim())
     .filter(Boolean)
     .map(a => {
-      if (a.includes('Jackson1')) return 'Jackson, Angelyca A';
-      if (a === 'Wang DanHui, Wang DanHui') return 'Wang, Danhui';
-      if (a === 'Chen JuHong, Chen JuHong') return 'Chen, Juhong';
-      if (a === 'Sam, R') return 'Nugen, Sam R';
-      if (a === 'Ny, Kevin P Nichols') return 'Nichols, Kevin P';
-      return a;
+      if (a.includes('Jackson1')) return 'Angelyca A Jackson';
+      if (a === 'Wang DanHui, Wang DanHui') return 'Danhui Wang';
+      if (a === 'Chen JuHong, Chen JuHong') return 'Juhong Chen';
+      if (a === 'Sam, R') return 'Sam R Nugen';
+      if (a === 'Ny, Kevin P Nichols') return 'Kevin P Nichols';
+      return toFirstMiddleLast(a);
     });
 
   const isFirstAuthor = rawAuthors.length > 0 && /Hinkley/i.test(rawAuthors[0]);
@@ -406,7 +436,7 @@ function formatAuthorsHTML(authors) {
       }
       return escapeHTML(author);
     })
-    .join('; ');
+    .join(', ');
 }
 
 function escapeHTML(str) {
@@ -562,14 +592,16 @@ function renderPillars() {
 function renderCollaborators() {
   const freq = {};
   const displayNames = {};
+  const surnames = {};
 
   state.publications.forEach(pub => {
     pub.authors.forEach(author => {
       if (/Hinkley/i.test(author)) return;
-      const lastName = author.split(',')[0].trim().replace(/[^A-Za-z’'-]/g, '');
-      if (!lastName || lastName.length < 2) return;
-      const key = lastName.toLowerCase();
+      const surname = extractSurname(author);
+      const key = surname.toLowerCase().replace(/[^a-z’'-]/g, '');
+      if (!key || key.length < 2) return;
       freq[key] = (freq[key] || 0) + 1;
+      surnames[key] = surname;
       if (!displayNames[key] || author.length > displayNames[key].length) {
         displayNames[key] = author;
       }
@@ -577,7 +609,7 @@ function renderCollaborators() {
   });
 
   const sorted = Object.keys(freq)
-    .map(k => ({ key: k, name: displayNames[k], count: freq[k] }))
+    .map(k => ({ key: k, name: displayNames[k], surname: surnames[k], count: freq[k] }))
     .filter(item => item.count >= 2)
     .sort((a, b) => b.count - a.count)
     .slice(0, 22);
@@ -585,7 +617,7 @@ function renderCollaborators() {
   const cloud = document.getElementById('collaborators-cloud');
   cloud.innerHTML = sorted
     .map(c => `
-      <button type="button" class="collab-btn" data-author="${escapeHTML(c.name.split(',')[0])}">
+      <button type="button" class="collab-btn" data-author="${escapeHTML(c.surname)}">
         <span>${escapeHTML(c.name)}</span>
         <span class="collab-count">${c.count}</span>
       </button>
