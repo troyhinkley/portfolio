@@ -148,11 +148,11 @@ body {
 .nav-container {
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 46px;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  gap: 14px;
+  justify-content: space-between;
+  min-height: 52px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  gap: 16px;
   white-space: nowrap;
 }
 
@@ -160,28 +160,32 @@ body {
   text-decoration: none;
   color: var(--text-primary);
   font-family: var(--font-serif);
-  font-size: 1.12rem;
+  font-size: 1.25rem;
   font-weight: 400;
   letter-spacing: -0.01em;
 }
 
-.header-sep {
-  color: var(--border-strong);
-  font-size: 0.85rem;
-  user-select: none;
-}
-
-.header-jump-link {
+.header-contact-btn {
   text-decoration: none;
-  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: var(--accent-primary);
+  color: #ffffff;
   font-family: var(--font-sans);
-  font-size: 0.86rem;
+  font-size: 0.82rem;
   font-weight: 600;
-  transition: color 0.15s ease;
+  letter-spacing: 0.01em;
+  box-shadow: var(--shadow-sm);
+  transition: filter 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.header-jump-link:hover {
-  color: var(--accent-primary);
+.header-contact-btn:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .hero-contact-row {
