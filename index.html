@@ -18,24 +18,20 @@
 <body>
   <div class="ambient-glow" aria-hidden="true"></div>
 
-  <!-- Top Header Bar -->
-  <header class="site-header">
+  <!-- Sticky Section-Jump Header (revealed on scroll past hero) -->
+  <header id="sticky-header" class="site-header" aria-hidden="true">
     <div class="container nav-container">
       <a href="#top" class="header-brand">Troy Hinkley, PhD</a>
-      <a href="mailto:troyhinkleyphd@gmail.com" class="header-email">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          aria-hidden="true">
-          <rect x="2" y="4" width="20" height="16" rx="2" />
-          <polyline points="22,6 12,13 2,6" />
-        </svg>
-        <span>troyhinkleyphd@gmail.com</span>
-      </a>
+      <span class="header-sep" aria-hidden="true">|</span>
+      <a href="#publications" class="header-jump-link">Publications</a>
+      <span class="header-sep" aria-hidden="true">|</span>
+      <a href="mailto:troyhinkleyphd@gmail.com" class="header-jump-link">Contact</a>
     </div>
   </header>
 
   <main id="top">
     <!-- Hero Section -->
-    <section class="hero-section">
+    <section id="hero-section" class="hero-section">
       <div class="container hero-grid">
         <div class="hero-content">
           <h1 class="hero-title">
@@ -47,6 +43,16 @@
             synthetic biology to engineer bacteriophage diagnostics, discover novel antibodies, and
             scale self-amplifying RNA vaccine platforms.
           </p>
+          <div class="hero-contact-row">
+            <a href="mailto:troyhinkleyphd@gmail.com" class="header-email">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                aria-hidden="true">
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              <span>troyhinkleyphd@gmail.com</span>
+            </a>
+          </div>
           <div class="hero-journals">
             <span class="hero-journals-label">Published in</span>
             <div class="journals-grid">

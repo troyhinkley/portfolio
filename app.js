@@ -947,6 +947,20 @@ function initPortfolio() {
     renderPublications();
   });
 
+  // Sticky Header reveal after scrolling past Hero Section
+  const stickyHeader = document.getElementById('sticky-header');
+  const heroSection = document.getElementById('hero-section');
+  if (stickyHeader && heroSection) {
+    const updateStickyHeader = () => {
+      const heroBottom = heroSection.getBoundingClientRect().bottom;
+      const shouldShow = heroBottom <= 0;
+      stickyHeader.classList.toggle('is-visible', shouldShow);
+      stickyHeader.setAttribute('aria-hidden', String(!shouldShow));
+    };
+    window.addEventListener('scroll', updateStickyHeader, { passive: true });
+    updateStickyHeader();
+  }
+
   // Delegated click listener for publication title accordion drawers
   document.addEventListener('click', e => {
     const btn = e.target.closest('.pub-title-btn');
