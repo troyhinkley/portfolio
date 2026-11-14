@@ -534,7 +534,6 @@ function renderPillars() {
         <button type="button" class="pillar-card ${isActive ? 'active' : ''}" data-pillar="${p.id}">
           <div>
             <div class="pillar-icon-row">
-              <span class="mono-label">DOMAIN // ${p.id.toUpperCase()}</span>
               <span class="pillar-badge">${count} works</span>
             </div>
             <h3 class="pillar-title">${escapeHTML(p.title)}</h3>
@@ -660,7 +659,7 @@ function renderPublications() {
 
   summaryEl.innerHTML = hasFilters
     ? `Showing <strong>${filtered.length}</strong> of ${state.publications.length} works (${filterParts.join(', ')})`
-    : `Showing all <strong>${state.publications.length}</strong> records from <code>citations.csv</code>`;
+    : '';
 
   if (filtered.length === 0) {
     container.innerHTML = `
@@ -761,21 +760,8 @@ function resetAllFilters() {
 }
 
 // Initialize App
-async function initPortfolio() {
-  let csvText = FALLBACK_CSV;
-  try {
-    const res = await fetch('citations.csv', { cache: 'no-store' });
-    if (res.ok) {
-      const fetched = await res.text();
-      if (fetched && fetched.includes('Authors,Title')) {
-        csvText = fetched;
-      }
-    }
-  } catch (_) {
-    // Use embedded FALLBACK_CSV if opened via file://
-  }
-
-  const rawRecords = parseCSV(csvText);
+function initPortfolio() {
+  const rawRecords = parseCSV(FALLBACK_CSV);
   state.publications = rawRecords.map(enrichRecord);
 
   renderCitationsChartAndCounts();
