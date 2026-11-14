@@ -424,7 +424,8 @@ function renderCitationsChartAndCounts(citationsData = CITATIONS_BY_YEAR) {
   const firstAuthor = pubs.filter(p => p.isFirstAuthor).length;
   const patents = pubs.filter(p => p.type === 'patent').length;
 
-  document.getElementById('nav-pub-count').textContent = pubs.length;
+  const navCountEl = document.getElementById('nav-pub-count');
+  if (navCountEl) navCountEl.textContent = pubs.length;
 
   const counts = {
     all: pubs.length,
@@ -833,17 +834,9 @@ function initPortfolio() {
   // Reset Filters
   document.getElementById('reset-filters-btn').addEventListener('click', resetAllFilters);
 
-  // Theme Toggle
-  const savedTheme = localStorage.getItem('tch_theme');
-  if (savedTheme === 'dark' || savedTheme === 'light') {
-    document.documentElement.setAttribute('data-theme', savedTheme);
-  }
-  document.getElementById('theme-toggle').addEventListener('click', () => {
-    const current = document.documentElement.getAttribute('data-theme') || 'light';
-    const next = current === 'light' ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('tch_theme', next);
-  });
+  // Always display in light mode
+  document.documentElement.setAttribute('data-theme', 'light');
+  localStorage.removeItem('tch_theme');
 }
 
 document.addEventListener('DOMContentLoaded', initPortfolio);
