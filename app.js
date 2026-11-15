@@ -47,9 +47,7 @@ const CITATIONS_BY_YEAR = [
 const state = {
   publications: [],
   filterType: 'all',
-  filterTopic: 'all',
-  searchQuery: '',
-  sortBy: 'year-desc'
+  filterTopic: 'all'
 };
 
 // Robust RFC-4180 CSV Parser
@@ -735,9 +733,6 @@ function renderCollaborators() {
 
   cloud.querySelectorAll('.collab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const surname = btn.dataset.author;
-      state.searchQuery = surname;
-      document.getElementById('search-input').value = surname;
       syncFilterUI();
       renderPublications();
       document.getElementById('publications').scrollIntoView({ behavior: 'smooth' });
@@ -745,7 +740,7 @@ function renderCollaborators() {
   });
 }
 
-// Filter & Sort Publications
+// Filter & Sort Publications (always newest first)
 function getFilteredPublications() {
   return state.publications
     .filter(pub => {
@@ -756,28 +751,9 @@ function getFilteredPublications() {
       if (state.filterTopic !== 'all' && pub.topic !== state.filterTopic) {
         return false;
       }
-      if (state.searchQuery.trim() !== '') {
-        const q = state.searchQuery.toLowerCase().trim();
-        const haystack = `${pub.title} ${pub.authors.join(' ')} ${pub.venue} ${pub.year} ${pub.publisher} ${pub.topicLabel}`.toLowerCase();
-        if (!haystack.includes(q)) return false;
-      }
       return true;
     })
-    .sort((a, b) => {
-      if (state.sortBy === 'year-desc') {
-        return b.year - a.year || b.impactRank - a.impactRank;
-      }
-      if (state.sortBy === 'year-asc') {
-        return a.year - b.year || b.impactRank - a.impactRank;
-      }
-      if (state.sortBy === 'impact') {
-        return b.impactRank - a.impactRank || b.year - a.year;
-      }
-      if (state.sortBy === 'title-asc') {
-        return a.title.localeCompare(b.title);
-      }
-      return 0;
-    });
+    .sort((a, b) => b.year - a.year || b.impactRank - a.impactRank);
 }
 
 // Render Main Publications List
@@ -787,17 +763,13 @@ function renderPublications() {
   const summaryEl = document.getElementById('active-filter-summary');
   const resetBtn = document.getElementById('reset-filters-btn');
 
-  const hasFilters =
-    state.filterType !== 'all' ||
-    state.filterTopic !== 'all' ||
-    state.searchQuery.trim() !== '';
+  const hasFilters = state.filterType !== 'all' || state.filterTopic !== 'all';
 
   resetBtn.classList.toggle('hidden', !hasFilters);
 
   const filterParts = [];
   if (state.filterType !== 'all') filterParts.push(`type: ${state.filterType}`);
   if (state.filterTopic !== 'all') filterParts.push(`topic: ${state.filterTopic}`);
-  if (state.searchQuery.trim()) filterParts.push(`query: "${escapeHTML(state.searchQuery.trim())}"`);
 
   summaryEl.innerHTML = hasFilters
     ? `Showing <strong>${filtered.length}</strong> of ${state.publications.length} works (${filterParts.join(', ')})`
@@ -807,7 +779,7 @@ function renderPublications() {
     container.innerHTML = `
       <div class="empty-state">
         <p style="font-size:1.05rem;font-weight:600;margin-bottom:8px;">No publications match your current filter criteria.</p>
-        <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:16px;">Try clearing the search query or switching back to "All Works".</p>
+        <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:16px;">Try switching back to "All Topics".</p>
         <button type="button" class="btn btn-secondary btn-sm" id="empty-reset-btn">Reset All Filters</button>
       </div>
     `;
@@ -815,22 +787,21 @@ function renderPublications() {
     return;
   }
 
-  // Group by year if sorted chronologically
-  if (state.sortBy === 'year-desc' || state.sortBy === 'year-asc') {
-    const groups = [];
-    const seenYears = new Map();
-    filtered.forEach(pub => {
-      if (!seenYears.has(pub.year)) {
-        const group = { year: pub.year, items: [] };
-        seenYears.set(pub.year, group);
-        groups.push(group);
-      }
-      seenYears.get(pub.year).items.push(pub);
-    });
+  // Group by year (sorted newest first)
+  const groups = [];
+  const seenYears = new Map();
+  filtered.forEach(pub => {
+    if (!seenYears.has(pub.year)) {
+      const group = { year: pub.year, items: [] };
+      seenYears.set(pub.year, group);
+      groups.push(group);
+    }
+    seenYears.get(pub.year).items.push(pub);
+  });
 
-    container.innerHTML = groups
-      .map(
-        g => `
+  container.innerHTML = groups
+    .map(
+      g => `
         <div class="year-group">
           <div class="year-group-header">
             <h3 class="year-heading">${g.year}</h3>
@@ -841,11 +812,8 @@ function renderPublications() {
           </div>
         </div>
       `
-      )
-      .join('');
-  } else {
-    container.innerHTML = `<div class="pub-list">${filtered.map(renderPubCardHTML).join('')}</div>`;
-  }
+    )
+    .join('');
 }
 
 function renderPubCardHTML(pub) {
@@ -906,8 +874,6 @@ function syncFilterUI() {
 function resetAllFilters() {
   state.filterType = 'all';
   state.filterTopic = 'all';
-  state.searchQuery = '';
-  document.getElementById('search-input').value = '';
   syncFilterUI();
   renderPillars();
   renderPublications();
@@ -947,13 +913,6 @@ function initPortfolio() {
     });
   }
 
-  // Search Input
-  const searchInput = document.getElementById('search-input');
-  searchInput.addEventListener('input', e => {
-    state.searchQuery = e.target.value;
-    renderPublications();
-  });
-
   // Delegated click listener for publication title accordion drawers
   document.addEventListener('click', e => {
     const btn = e.target.closest('.pub-title-btn');
@@ -966,20 +925,6 @@ function initPortfolio() {
     btn.setAttribute('aria-expanded', String(!isExpanded));
     drawer.hidden = isExpanded;
     card.classList.toggle('is-expanded', !isExpanded);
-  });
-
-  // Keyboard shortcut '/' to focus search
-  window.addEventListener('keydown', e => {
-    if (e.key === '/' && document.activeElement !== searchInput) {
-      e.preventDefault();
-      searchInput.focus();
-    }
-  });
-
-  // Sort Select
-  document.getElementById('sort-select').addEventListener('change', e => {
-    state.sortBy = e.target.value;
-    renderPublications();
   });
 
   // View Toggle (Cards vs Compact)
