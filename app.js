@@ -650,7 +650,7 @@ function renderPillars() {
     {
       id: 'rna',
       title: 'Self-Amplifying RNA Vaccines & Therapeutics',
-      desc: 'Self-amplifying RNA vaccines across a massive range of targets—including hemorrhagic fevers (CCHFV, Sudan, Ebola, SFTSV, Andes hantavirus), respiratory & enteric viruses (H5N1, SARS-CoV-2, EV-D68, RSV), and latent/emerging threats (EBV, VZV, Nipah), plus RNA-delivered nanobody therapeutics against EV-D68 and Shiga toxin.'
+      desc: 'Self-amplifying RNA vaccines across a massive range of targets—including hemorrhagic fevers (CCHFV, Sudan, Ebola, SFTSV, Andes hantavirus), respiratory & enteric viruses (H5N1, SARS-CoV-2, EV-D68, RSV), and latent/emerging threats (EBV, VZV, Nipah).'
     }
   ];
 
