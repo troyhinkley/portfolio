@@ -645,7 +645,7 @@ function renderPillars() {
     {
       id: 'phage',
       title: 'Bacteriophage Diagnostics',
-      desc: 'Engineering bacteriophages with affinity-specific reporter probes to power filter-based and microfluidic lab-on-a-chip diagnostics for single-CFU E. coli detection'
+      desc: 'Engineering bacteriophages with affinity-specific reporter probes to power filter-based and microfluidic lab-on-a-chip diagnostics for single-CFU E. coli detection.'
     },
     {
       id: 'rna',
