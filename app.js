@@ -540,6 +540,13 @@ function escapeHTML(str) {
     .replace(/"/g, '&quot;');
 }
 
+function italicizeSpecies(html) {
+  return String(html).replace(
+    /<em>(Escherichia coli|E\.\s*coli)<\/em>|\b(Escherichia coli|E\.\s*coli)\b/gi,
+    (_, already, raw) => `<em>${already || raw}</em>`
+  );
+}
+
 // Render Citations Per Year Chart & Filter Counts
 function renderCitationsChartAndCounts(citationsData = CITATIONS_BY_YEAR) {
   const pubs = state.publications;
@@ -608,7 +615,7 @@ function renderFeatured() {
           </div>
           <h3 class="featured-title">
             <button type="button" class="pub-title-btn" aria-expanded="false">
-              <span>${escapeHTML(pub.title)}</span>
+              <span>${italicizeSpecies(escapeHTML(pub.title))}</span>
               <svg class="abstract-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
@@ -618,7 +625,7 @@ function renderFeatured() {
           <div class="pub-abstract-drawer" hidden>
             <div class="pub-abstract-inner">
               <span class="pub-abstract-label">Abstract</span>
-              <p class="pub-abstract-text">${pub.abstractHTML}</p>
+              <p class="pub-abstract-text">${italicizeSpecies(pub.abstractHTML)}</p>
             </div>
           </div>
         </div>
@@ -667,8 +674,8 @@ function renderPillars() {
             <div class="pillar-icon-row">
               <span class="pillar-badge">${badgeText}</span>
             </div>
-            <h3 class="pillar-title">${escapeHTML(p.title)}</h3>
-            <p class="pillar-desc">${escapeHTML(p.desc)}</p>
+            <h3 class="pillar-title">${italicizeSpecies(escapeHTML(p.title))}</h3>
+            <p class="pillar-desc">${italicizeSpecies(escapeHTML(p.desc))}</p>
           </div>
         </button>
       `;
@@ -859,7 +866,7 @@ function renderPubCardHTML(pub) {
         </div>
         <h4 class="pub-title">
           <button type="button" class="pub-title-btn" aria-expanded="false">
-            <span>${escapeHTML(pub.title)}</span>
+            <span>${italicizeSpecies(escapeHTML(pub.title))}</span>
             <svg class="abstract-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
@@ -869,7 +876,7 @@ function renderPubCardHTML(pub) {
         <div class="pub-abstract-drawer" hidden>
           <div class="pub-abstract-inner">
             <span class="pub-abstract-label">Abstract</span>
-            <p class="pub-abstract-text">${pub.abstractHTML}</p>
+            <p class="pub-abstract-text">${italicizeSpecies(pub.abstractHTML)}</p>
           </div>
         </div>
       </div>
