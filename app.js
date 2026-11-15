@@ -642,7 +642,7 @@ function renderPillars() {
   const pillarDefs = [
     {
       id: 'phage',
-      title: 'Bacteriophage Diagnostics',
+      title: 'Bacteriophage Engineering & Diagnostics',
       desc: 'Engineering bacteriophages with affinity-specific reporter probes to power filter-based and microfluidic lab-on-a-chip diagnostics for single-CFU E. coli detection.'
     },
     {
@@ -761,11 +761,8 @@ function renderPublications() {
   const filtered = getFilteredPublications();
   const container = document.getElementById('publications-container');
   const summaryEl = document.getElementById('active-filter-summary');
-  const resetBtn = document.getElementById('reset-filters-btn');
 
   const hasFilters = state.filterType !== 'all' || state.filterTopic !== 'all';
-
-  resetBtn.classList.toggle('hidden', !hasFilters);
 
   const filterParts = [];
   if (state.filterType !== 'all') filterParts.push(`type: ${state.filterType}`);
@@ -938,9 +935,6 @@ function initPortfolio() {
       container.classList.toggle('view-cards', view === 'cards');
     });
   });
-
-  // Reset Filters
-  document.getElementById('reset-filters-btn').addEventListener('click', resetAllFilters);
 
   // Always display in light mode
   document.documentElement.setAttribute('data-theme', 'light');
