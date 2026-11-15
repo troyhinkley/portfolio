@@ -642,8 +642,8 @@ function renderPillars() {
     },
     {
       id: 'rna',
-      title: 'Self-Amplifying / Replicon RNA (repRNA) Vaccines, Nanocarriers & Antiviral Therapeutics',
-      desc: 'Localizing cationic nanocarriers (LION™) and self-amplifying RNA platforms protecting against H5N1, CCHFV, Sudan virus, SARS-CoV-2, EBV, and SFTSV, alongside RNA-to-RNA antiviral antibody pipelines and structural virology.'
+      title: 'Self-Amplifying RNA Vaccines & Therapeutics',
+      desc: 'Self-amplifying RNA vaccines across a massive range of targets—including hemorrhagic fevers (CCHFV, Sudan, Ebola, SFTSV, Andes hantavirus), respiratory & enteric viruses (H5N1, SARS-CoV-2, EV-D68, RSV), and latent/emerging threats (EBV, VZV, Nipah), plus RNA-delivered nanobody therapeutics against EV-D68 and Shiga toxin.'
     }
   ];
 
