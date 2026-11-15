@@ -637,12 +637,12 @@ function renderPillars() {
   const pillarDefs = [
     {
       id: 'phage',
-      title: 'Bacteriophage Engineering & Biosensors (Cornell University & Intellectual Ventures / Global Health Labs)',
-      desc: 'Synthetic T7 reporter phages (NanoLuc::CBM, alkaline phosphatase), syringe-based and microfluidic lab-on-a-chip diagnostics for single-CFU E. coli detection, and CBM enzyme immobilization.'
+      title: 'Bacteriophage Engineering & Biosensors',
+      desc: 'Engineering bacteriophages with affinity-specific reporter probes to power filter-based and microfluidic lab-on-a-chip diagnostics for single-CFU E. coli detection'
     },
     {
       id: 'rna',
-      title: 'Self-Amplifying / Replicon RNA (repRNA) Vaccines, Nanocarriers & Antiviral Therapeutics (HDT Bio)',
+      title: 'Self-Amplifying / Replicon RNA (repRNA) Vaccines, Nanocarriers & Antiviral Therapeutics',
       desc: 'Localizing cationic nanocarriers (LION™) and self-amplifying RNA platforms protecting against H5N1, CCHFV, Sudan virus, SARS-CoV-2, EBV, and SFTSV, alongside RNA-to-RNA antiviral antibody pipelines and structural virology.'
     }
   ];
