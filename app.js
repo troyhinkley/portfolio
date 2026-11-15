@@ -637,7 +637,7 @@ function renderPillars() {
   const pillarDefs = [
     {
       id: 'phage',
-      title: 'Bacteriophage-based diagnostics',
+      title: 'Bacteriophage Diagnostics',
       desc: 'Engineering bacteriophages with affinity-specific reporter probes to power filter-based and microfluidic lab-on-a-chip diagnostics for single-CFU E. coli detection'
     },
     {
