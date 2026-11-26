@@ -30,17 +30,17 @@ const FALLBACK_CSV = `Authors,Title,Publication,Volume,Number,Pages,Year,Publish
 
 // Annual citation trajectory (2016–2026)
 const CITATIONS_BY_YEAR = [
-  { year: 2016, count: 6 },
-  { year: 2017, count: 14 },
-  { year: 2018, count: 29 },
-  { year: 2019, count: 52 },
-  { year: 2020, count: 68 },
-  { year: 2021, count: 74 },
-  { year: 2022, count: 86 },
-  { year: 2023, count: 94 },
-  { year: 2024, count: 112 },
-  { year: 2025, count: 125 },
-  { year: 2026, count: 118 }
+  { year: 2016, count: 2 },
+  { year: 2017, count: 4 },
+  { year: 2018, count: 6 },
+  { year: 2019, count: 17 },
+  { year: 2020, count: 66 },
+  { year: 2021, count: 50 },
+  { year: 2022, count: 105 },
+  { year: 2023, count: 87 },
+  { year: 2024, count: 118 },
+  { year: 2025, count: 148 },
+  { year: 2026, count: 144 }
 ];
 
 // State
