@@ -878,6 +878,14 @@ function resetAllFilters() {
 
 // Initialize App
 function initPortfolio() {
+  const emailLink = document.getElementById('contact-email-link');
+  const emailText = document.getElementById('contact-email-text');
+  if (emailLink && emailText && emailLink.dataset.user && emailLink.dataset.domain) {
+    const addr = `${emailLink.dataset.user}@${emailLink.dataset.domain}`;
+    emailLink.href = `mailto:${addr}`;
+    emailText.textContent = addr;
+  }
+
   const rawRecords = parseCSV(FALLBACK_CSV);
   state.publications = rawRecords.map(enrichRecord);
 
