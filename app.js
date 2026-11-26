@@ -587,12 +587,16 @@ function renderCitationsChartAndCounts(citationsData = CITATIONS_BY_YEAR) {
       return `
         <div class="year-bar-col" title="${item.year}: ${item.count} citations">
           <span class="year-bar-count">${item.count}</span>
-          <div class="year-bar-fill" style="height: ${heightPx}px"></div>
+          <div class="year-bar-fill" data-height="${heightPx}"></div>
           <span class="year-bar-label">'${String(item.year).slice(-2)}</span>
         </div>
       `;
     })
     .join('');
+
+  chartEl.querySelectorAll('.year-bar-fill').forEach(bar => {
+    bar.style.height = `${bar.dataset.height}px`;
+  });
 }
 
 // Render Featured Landmark Cards (without Cite button, with direct Publisher link)
@@ -775,8 +779,8 @@ function renderPublications() {
   if (filtered.length === 0) {
     container.innerHTML = `
       <div class="empty-state">
-        <p style="font-size:1.05rem;font-weight:600;margin-bottom:8px;">No publications match your current filter criteria.</p>
-        <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:16px;">Try switching back to "All Topics".</p>
+        <p class="empty-state-title">No publications match your current filter criteria.</p>
+        <p class="empty-state-desc">Try switching back to "All Topics".</p>
         <button type="button" class="btn btn-secondary btn-sm" id="empty-reset-btn">Reset All Filters</button>
       </div>
     `;

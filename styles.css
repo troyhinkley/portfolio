@@ -1536,6 +1536,18 @@ body {
   border-radius: var(--radius-md);
 }
 
+.empty-state-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.empty-state-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
 /* Footer */
 .site-footer {
   padding: 40px 0;
