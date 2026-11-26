@@ -527,7 +527,7 @@ body {
   background: var(--bg-subtle);
   border-radius: var(--radius-md);
   padding: 18px 16px 14px;
-  margin-bottom: 18px;
+  margin-bottom: 0;
 }
 
 .timeline-bars {

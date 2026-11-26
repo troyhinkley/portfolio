@@ -4,6 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; object-src 'none'; base-uri 'self';" />
   <title>Troy C. Hinkley, PhD — Scientific Publications & Research Portfolio</title>
   <meta name="description"
     content="Scientific portfolio and peer-reviewed publications of Troy C. Hinkley, PhD, spanning replicating RNA (repRNA) vaccines, LION nanocarriers, bacteriophage bioengineering, and rapid pathogen diagnostics." />
@@ -155,7 +158,7 @@
             </div>
           </div>
 
-          <div class="timeline-box" style="margin-bottom: 0;">
+          <div class="timeline-box">
             <div class="timeline-bars" id="citations-chart" role="img"
               aria-label="Number of citations per year bar chart">
               <!-- Populated dynamically by app.js -->
