@@ -583,7 +583,7 @@ function renderCitationsChartAndCounts(citationsData = CITATIONS_BY_YEAR) {
     .map(item => {
       const heightPx = Math.max(Math.round((item.count / maxCitations) * 105), 6);
       return `
-        <div class="year-bar-col" title="${item.year}: ${item.count} citations">
+        <div class="year-bar-col">
           <span class="year-bar-count">${item.count}</span>
           <div class="year-bar-fill" data-height="${heightPx}"></div>
           <span class="year-bar-label">'${String(item.year).slice(-2)}</span>
