@@ -15,7 +15,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <link rel="stylesheet" href="styles.css?v=4" />
 </head>
 
 <body>
@@ -148,11 +148,13 @@
                 <span class="kpi-num" id="total-citations-val">680+</span>
                 <span class="kpi-lbl">Total Citations</span>
               </div>
-              <div class="kpi-pill">
+              <div class="kpi-pill" tabindex="0"
+                data-tooltip="Number of publications (h) that have each been cited at least h times.">
                 <span class="kpi-num" id="h-index-val">16</span>
                 <span class="kpi-lbl">h-index</span>
               </div>
-              <div class="kpi-pill">
+              <div class="kpi-pill kpi-pill-right" tabindex="0"
+                data-tooltip="Number of publications with at least 10 citations.">
                 <span class="kpi-num" id="i10-index-val">18</span>
                 <span class="kpi-lbl">i10-index</span>
               </div>
@@ -170,7 +172,7 @@
     </section>
   </main>
 
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=4"></script>
 </body>
 
 </html>

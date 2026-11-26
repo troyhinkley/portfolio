@@ -476,16 +476,65 @@ body {
 
 .citation-kpis {
   display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
   gap: 8px;
   flex-wrap: wrap;
 }
 
 .kpi-pill {
+  position: relative;
   background: var(--bg-subtle);
   padding: 6px 12px;
   border-radius: var(--radius-sm);
   text-align: center;
   border: 1px solid var(--border-color);
+}
+
+.kpi-pill[data-tooltip] {
+  cursor: help;
+}
+
+.kpi-pill[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  width: max-content;
+  max-width: 240px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--text-primary);
+  color: var(--bg-elevated);
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  line-height: 1.35;
+  font-weight: 500;
+  text-align: left;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 20;
+}
+
+.kpi-pill-right[data-tooltip]::after {
+  left: auto;
+  right: 0;
+  transform: translateY(4px);
+}
+
+.kpi-pill[data-tooltip]:hover::after,
+.kpi-pill[data-tooltip]:focus-visible::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.kpi-pill-right[data-tooltip]:hover::after,
+.kpi-pill-right[data-tooltip]:focus-visible::after {
+  transform: translateY(0);
 }
 
 .kpi-num {
