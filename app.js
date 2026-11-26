@@ -28,11 +28,8 @@ const FALLBACK_CSV = `Authors,Title,Publication,Volume,Number,Pages,Year,Publish
 "Hodge, Edgar A; Archer, Jacob; Anderson, Jacqueline S; Warner, Nikole L; Tremblay, Jacque; Klose, Thomas; Park, Stephanie; Hinkley, Troy; Khandhar, Amit P; Kuhn, Richard; Shoemaker, Charles; Erasmus, Jesse H; ",An RNA-to-RNA pipeline for rapid antiviral antibody development,Molecular Therapy,34,7,4136-4152,2026,Elsevier
 "Kurtz, Ryan; Reed, Steven J; Sankar, Poornima; Leal, Joseph; Hodge, Edgar; Arayangkul, Hathaipat; Hinkley, Troy; Gale Jr, Michael; Khandhar, Amit; Erasmus, Jesse; Kimura, Taishi; ","A cationic nanocarrier, LIONTM, shapes a local muscle immune landscape to coordinate adaptive responses",MOLECULAR THERAPY,34,5,,2026,"CELL PRESS, 50 HAMPSHIRE ST, FLOOR 5, CAMBRIDGE, MA 02139 USA"`;
 
-// Annual citation trajectory (2016–2026)
+// Annual citation trajectory (2017–2026)
 const CITATIONS_BY_YEAR = [
-  { year: 2016, count: 2 },
-  { year: 2017, count: 4 },
-  { year: 2016, count: 3 },
   { year: 2017, count: 3 },
   { year: 2018, count: 6 },
   { year: 2019, count: 17 },
@@ -574,10 +571,9 @@ function renderCitationsChartAndCounts(citationsData = CITATIONS_BY_YEAR) {
 
   // Render Citations Per Year bar chart
   const maxCitations = Math.max(...citationsData.map(d => d.count), 1);
-  const totalCitations = citationsData.reduce((acc, d) => acc + d.count, 0);
   const totalEl = document.getElementById('total-citations-val');
   if (totalEl) {
-    totalEl.textContent = totalCitations.toLocaleString();
+    totalEl.textContent = (747).toLocaleString();
   }
 
   const chartEl = document.getElementById('citations-chart');
