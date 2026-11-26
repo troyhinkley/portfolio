@@ -447,6 +447,7 @@ body {
 
 /* Hero Citations Card */
 .hero-metrics-card {
+  max-width: 50%;
   background: var(--bg-elevated);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
@@ -1654,6 +1655,10 @@ body {
 
   .network-layout {
     grid-template-columns: 1fr;
+  }
+
+  .hero-metrics-card {
+    max-width: 100%;
   }
 }
 
